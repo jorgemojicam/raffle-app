@@ -1,15 +1,8 @@
 import React from "react";
-import Auth from "./pages/Auth";
-import { Routes, Route } from "react-router-dom";
+import AppRouter from "./routers/AppRouter";
 
 function App() {
-  return (
-  
-      <Routes>
-        <Route path="/" element={<Auth/>} />
-      </Routes>
- 
-  );
+  return <AppRouter />;
 }
 
 export default App;
