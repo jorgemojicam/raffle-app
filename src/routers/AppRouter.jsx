@@ -6,7 +6,7 @@ import Auth from "../pages/Auth";
 import Contact from "../pages/Contact";
 import NotFound from "../pages/NotFound";
 import Rifas from '../pages/Rifas'
-
+import PrivateRoute from "../routers/PrivateRoute";
 export default function AppRouter() {
   return (
     <Layout>
@@ -14,7 +14,7 @@ export default function AppRouter() {
         <Route path="/" element={<Auth />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
-        <Route path="/rifas" element={<Rifas />} />
+        <PrivateRoute path="/rifas" element={<Rifas />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>

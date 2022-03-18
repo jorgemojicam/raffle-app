@@ -8,12 +8,16 @@ export default function Navigation() {
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar.nav">
         <Nav className="mr-auto">
-          <Nav.Link as={NavLink} to="/rifas">Mis Rifas</Nav.Link>
+          <Nav.Link as={NavLink} to="/rifas">
+            Mis Rifas
+          </Nav.Link>
           <Nav.Link>Inscritas</Nav.Link>
         </Nav>
         <Nav>
-          <Nav.Link>Login</Nav.Link>
-          <Nav.Link>Registrarse</Nav.Link>
+          <Nav.Link as={NavLink} to="/">Login</Nav.Link>
+          <Nav.Link as={NavLink} to="/contact">
+            Contacto
+          </Nav.Link>
           <Nav.Link>Mi cuenta</Nav.Link>
         </Nav>
         <Nav>
