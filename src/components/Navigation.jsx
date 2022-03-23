@@ -1,7 +1,9 @@
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import useAuth from "../auth/useAuth";
 
 export default function Navigation() {
+  const { logout } = useAuth();
   return (
     <Navbar collapseOnSelect expand="lg" variant="dark" bg="dark">
       <Navbar.Brand>Raffle</Navbar.Brand>
@@ -14,11 +16,16 @@ export default function Navigation() {
           <Nav.Link>Inscritas</Nav.Link>
         </Nav>
         <Nav>
-          <Nav.Link as={NavLink} to="/">Login</Nav.Link>
+          <Nav.Link as={NavLink} to="/">
+            Login
+          </Nav.Link>
           <Nav.Link as={NavLink} to="/contact">
             Contacto
           </Nav.Link>
-          <Nav.Link>Mi cuenta</Nav.Link>
+          <Nav.Link as={NavLink} to="/about">
+            Mi cuenta
+          </Nav.Link>
+          <Nav.Link onClick={logout}>Cerrar sesion</Nav.Link>
         </Nav>
         <Nav>
           <NavDropdown title="Saludo">
