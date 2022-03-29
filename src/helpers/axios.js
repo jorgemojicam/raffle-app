@@ -1,9 +1,10 @@
 import axios from "axios";
-import { api } from "../urlConfig";
-import store from "../store";
-import { authConstants } from "../actions/constants";
+//import { api} from "../urlConfig";
+//import store from "../store";
+//import { authConstants } from "../helpers/constants";
 
 const token = window.localStorage.getItem("token");
+const api =`http://localhost:8080/api/v1`
 
 const axiosIntance = axios.create({
   baseURL: api,
@@ -13,7 +14,10 @@ const axiosIntance = axios.create({
 });
 
 axiosIntance.interceptors.request.use((req) => {
-  const { auth } = store.getState();
+  //const { auth } = store.getState();
+  const auth = {
+    token: "asdf"
+  }
   if (auth.token) {
     req.headers.Authorization = `Bearer ${auth.token}`;
   }
@@ -29,7 +33,7 @@ axiosIntance.interceptors.response.use(
     const status = error.response ? error.response.status : 500;
     if (status && status === 500) {
       localStorage.clear();
-      store.dispatch({ type: authConstants.LOGOUT_SUCCESS });
+      //store.dispatch({ type: authConstants.LOGOUT_SUCCESS });
     }
     return Promise.reject(error);
   }

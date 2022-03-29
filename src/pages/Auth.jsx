@@ -1,19 +1,18 @@
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import useAuth from "../auth/useAuth";
-import { authConstants } from "../helpers/constants";
-import authReducer  from "../reducers/authReducer";
 
 export default function Auth() {
-  const [authState, dispatch] = useReducer(authReducer, null);
+
   const [username, setUsername] = useState("");
-  const {login} = useAuth()
+  const { login } = useAuth();
   const logi = (e) => {
     e.preventDefault();
-    login()
-    /*    
-    dispatch({ type: authConstants.SIGNUP_REQUEST, payloads: username });
-    */
+    const user = {
+      username: username,
+      password: "mojica123",
+    };
+    login(user);
   };
 
   return (
