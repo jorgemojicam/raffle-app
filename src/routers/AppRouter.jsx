@@ -5,13 +5,21 @@ import About from "../pages/About";
 import Auth from "../pages/Auth";
 import Contact from "../pages/Contact";
 import NotFound from "../pages/NotFound";
-import Rifas from "../pages/Rifas";
+import Rifas from "../pages/Rifa/Rifas";
 import PrivateRoute from "../routers/PrivateRoute";
+import PublicRoute from "../routers/PublicRoute";
 export default function AppRouter() {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<Auth />} />
+        <Route
+          path="/"
+          element={
+            <PublicRoute>
+              <Auth />
+            </PublicRoute>
+          }
+        />
         <Route path="/contact" element={<Contact />} />
         <Route
           path="/about"
@@ -21,7 +29,14 @@ export default function AppRouter() {
             </PrivateRoute>
           }
         />
-        <Route path="/rifas" element={<Rifas />} />
+        <Route
+          path="/rifas"
+          element={
+            <PrivateRoute>
+              <Rifas />
+            </PrivateRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Layout>

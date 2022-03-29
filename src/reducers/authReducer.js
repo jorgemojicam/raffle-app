@@ -5,16 +5,24 @@ import {
     login
 } from "../actions/auth.action";
 
-const authReducer = async (state, action) => {
+const authReducer = (state, action) => {
     switch (action.type) {
         case authConstants.SIGNUP_REQUEST:
-            const user = await login(action.payloads)
+            const user = login(action.payloads)
             state = {
                 ...state,
                 user,
-                authenticating: true,
+                isAuthenticate: true,
             };
+            break;
+        case authConstants.LOGOUT_REQUEST:
+            state={
+                ...state,
+                isAuthenticate:false,
+            }
+            break;
         default:
+            console.log("No paso nada")
             break;
     }
     return state;

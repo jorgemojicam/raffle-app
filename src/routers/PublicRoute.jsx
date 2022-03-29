@@ -1,9 +1,12 @@
-import { Route, Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import useAuth from "../auth/useAuth";
-export default function PubliceRoute(props) {
-  const user = useAuth();
+export default function PrivateRoute({ children }) {
+  const { isLogged } = useAuth();
+  let location = useLocation();
 
-  if (user) return <Navigate to="/contact" />;
+  if (isLogged()) {
+    return <Navigate to="/rifas" state={{ from: location }} replace />;
+  }
 
-  return <Route {...props} />;
+  return children;
 }

@@ -38,6 +38,7 @@ export const signup = async  (user) => {
       type: authConstants.SIGNUP_FAILURE,
       payload: { error: data.error },
     });*/
+    return data
   }
   //} ;
 };
@@ -85,7 +86,7 @@ export const isUserLoggedIn = () => {
 };
 
 export const signout = () => {
-  return async (dispatch) => {
+ 
     //dispatch({ type: authConstants.LOGOUT_REQUEST });
     // localStorage.removeItem('user');
     // localStorage.removeItem('token');
@@ -101,5 +102,5 @@ export const signout = () => {
     //         payload: { error: res.data.error }
     //     });
     // }
-  };
+
 };

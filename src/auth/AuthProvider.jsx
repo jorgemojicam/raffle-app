@@ -5,21 +5,22 @@ import authReducer from "../reducers/authReducer";
 export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+
   const [authState, dispatch] = useReducer(authReducer, null);
 
-  const isLogged = () => !!user;
-  const hasRole = (role) => role && user?.role === role;
+  const isLogged = () => authState?.isAuthenticate;
+  const hasRole = (role) => role && authState?.role === role;
 
   const login = (userdata) => {
-    dispatch({ type: authConstants.SIGNUP_REQUEST, payloads: userdata });
-   
+    dispatch({ type: authConstants.SIGNUP_REQUEST, payloads: userdata });        
   };
 
-  const logout = () => setUser(null);
+  const logout = () => {
+    dispatch({ type: authConstants.LOGOUT_REQUEST });    
+  }
 
   const contextValues = {
-    user,
+    authState,
     isLogged,
     hasRole,
     login,
