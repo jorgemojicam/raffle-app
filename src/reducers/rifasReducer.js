@@ -16,9 +16,9 @@ export const cartonReducer = async (state, action) => {
         ...state,
         carton: action.payload.cartons,
       };      
-      break;
+      return state;
     default:
       break;
   }   
-  return state;
+  
 };
