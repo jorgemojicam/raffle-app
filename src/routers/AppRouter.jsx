@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import useAuth from "../auth/useAuth";
 import Layout from "../components/layouts/Layout";
 import About from "../pages/About";
 import Auth from "../pages/Auth";
@@ -9,6 +10,14 @@ import Rifas from "../pages/Rifa/Rifas";
 import PrivateRoute from "../routers/PrivateRoute";
 import PublicRoute from "../routers/PublicRoute";
 export default function AppRouter() {
+  const { isAuth, isLogged } = useAuth();
+
+  useEffect(() => {
+    if (isAuth) {
+      isLogged();
+    }
+  }, []);
+
   return (
     <Layout>
       <Routes>
