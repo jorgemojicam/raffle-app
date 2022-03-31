@@ -5,20 +5,20 @@ import useAuth from "../auth/useAuth";
 export default function Auth() {
 
   const [username, setUsername] = useState("");
-  const { login } = useAuth();
-  const logi = (e) => {
+  const { logi } = useAuth();
+  const login = (e) => {
     e.preventDefault();
     const user = {
       username: username,
       password: "mojica123",
     };
-    login(user);
+    logi(user);
   };
 
   return (
     <div>
       <Container>
-        <Form onSubmit={logi}>
+        <Form onSubmit={login}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Username</Form.Label>
             <Form.Control

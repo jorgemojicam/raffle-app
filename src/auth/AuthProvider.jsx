@@ -1,14 +1,12 @@
-import { createContext, useReducer, useState } from "react";
-import { authConstants } from "../helpers/constants";
+import { createContext, useReducer } from "react";
 import authReducer from "../reducers/authReducer";
-import { isUserLoggedIn } from "../actions/auth.action";
+import { isUserLoggedIn, signout, login } from "../actions/auth.action";
 export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
   const [authState, dispatch] = useReducer(authReducer, null);
 
   const isLogged = () => {
-    
     const aut = isUserLoggedIn();
     dispatch(aut);
   };
@@ -16,12 +14,16 @@ export default function AuthProvider({ children }) {
 
   const hasRole = (role) => role && authState?.role === role;
 
-  const login = (userdata) => {    
-    dispatch({ type: authConstants.SIGNUP_REQUEST, payloads: userdata });
+  const logi = (userdata) => {
+    const res = async () => {
+      const useres = await login(userdata);      
+      dispatch(useres);
+    };
+    res()
   };
 
   const logout = () => {
-    dispatch({ type: authConstants.LOGOUT_REQUEST });
+    dispatch(signout());
   };
 
   const contextValues = {
@@ -29,7 +31,7 @@ export default function AuthProvider({ children }) {
     isLogged,
     isAuth,
     hasRole,
-    login,
+    logi,
     logout,
   };
 

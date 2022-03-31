@@ -1,5 +1,7 @@
 import axios from "../helpers/axios";
-import { authConstants } from "../helpers/constants";
+import {
+  authConstants
+} from "../helpers/constants";
 
 // new update signup action
 export const signup = async (user) => {
@@ -10,7 +12,10 @@ export const signup = async (user) => {
     res = await axios.post(`/signup`, user);
     if (res.status === 201) {
       //dispatch({ type: authConstants.SIGNUP_SUCCESS });
-      const { token, user } = res.data;
+      const {
+        token,
+        user
+      } = res.data;
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       /*dispatch({
@@ -22,12 +27,16 @@ export const signup = async (user) => {
       });*/
       return user;
     } else {
-      const { error } = res.data;
+      const {
+        error
+      } = res.data;
       return error;
       //dispatch({ type: authConstants.SIGNUP_FAILURE, payload: { error } });
     }
   } catch (error) {
-    const { data } = error.response;
+    const {
+      data
+    } = error.response;
     /*dispatch({
       type: authConstants.SIGNUP_FAILURE,
       payload: { error: data.error },
@@ -43,15 +52,34 @@ export const login = async (user) => {
   });
 
   if (res.status === 200) {
-    const { email, username, accessToken } = res.data;
-    const user = { email, username };
+    const {
+      email,
+      username,
+      accessToken
+    } = res.data;
+    const user = {
+      email,
+      username
+    };
     localStorage.setItem("token", accessToken);
     localStorage.setItem("user", JSON.stringify(user));
-
-    return user;
+    const dispatch = {
+      type: authConstants.LOGIN_SUCCESS,
+      payload: {
+        user
+      },
+    }
+    return dispatch;
   } else {
     if (res.status === 400) {
-      return "error";
+      return {
+        type: authConstants.LOGIN_FAILURE
+      }
+    }
+    if (res.status === 401) {
+      return {
+        type: authConstants.LOGIN_FAILURE
+      }
     }
   }
 };
@@ -71,17 +99,24 @@ export const isUserLoggedIn = () => {
   } else {
     const res = {
       type: authConstants.LOGIN_FAILURE,
-      payload: { error: "Failed to login" },
+      payload: {
+        error: "Failed to login"
+      },
     };
     return res;
   }
 };
 
 export const signout = () => {
-  //dispatch({ type: authConstants.LOGOUT_REQUEST });
-  // localStorage.removeItem('user');
-  // localStorage.removeItem('token');
+
+  localStorage.removeItem('user');
+  localStorage.removeItem('token');
   localStorage.clear();
+  const dispatch = {
+    type: authConstants.LOGOUT_REQUEST
+  }
+  return dispatch
+
   //dispatch({ type: authConstants.LOGOUT_SUCCESS });
   //dispatch({ type: cartConstants.RESET_CART });
   //const res = await axios.post(`/admin/signout`);
