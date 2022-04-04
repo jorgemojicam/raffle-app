@@ -66,4 +66,5 @@ export const categoryConstansts = {
   export const cartonConstants = {
     GET_CARTON_REQUEST: "GET_CARTON_REQUEST",
     GET_CARTON_FAILURE: "GET_CARTON_FAILURE",
+    ADD_CARTON_REQUEST: "ADD_CARTON_REQUEST",
   };

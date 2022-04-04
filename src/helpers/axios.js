@@ -1,10 +1,7 @@
 import axios from "axios";
-//import { api} from "../urlConfig";
-//import store from "../store";
-//import { authConstants } from "../helpers/constants";
 
-const token = window.localStorage.getItem("token");
-const api =`http://localhost:8080/api/v1`
+const token = localStorage.getItem("token");
+const api = `http://localhost:8080/api/v1`
 
 const axiosIntance = axios.create({
   baseURL: api,
@@ -14,12 +11,11 @@ const axiosIntance = axios.create({
 });
 
 axiosIntance.interceptors.request.use((req) => {
-  //const { auth } = store.getState();
-  const auth = {
-    token: token
-  }
-  if (auth.token) {
-    req.headers.Authorization = `Bearer ${auth.token}`;
+
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    req.headers.Authorization = `Bearer ${token}`;
   }
   return req;
 });
@@ -29,11 +25,14 @@ axiosIntance.interceptors.response.use(
     return res;
   },
   (error) => {
-    console.log(error.response);
+  
     const status = error.response ? error.response.status : 500;
     if (status && status === 500) {
       localStorage.clear();
       //store.dispatch({ type: authConstants.LOGOUT_SUCCESS });
+    }
+    if (status && status === 401) {
+      localStorage.clear();
     }
     return Promise.reject(error);
   }

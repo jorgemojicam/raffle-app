@@ -1,6 +1,8 @@
-import React, { useEffect, useReducer } from "react";
-import { Card, Col, Row } from "react-bootstrap";
+import React, { useEffect, useReducer, useState } from "react";
+import { Card, Col, Row, Button } from "react-bootstrap";
 import { get } from "../../actions/rifas.actions";
+import AddRifaModal from "../../components/AddRifaModal";
+import DeleteModal from "../../components/DeleteModal";
 import { cartonConstants } from "../../helpers/constants";
 import { cartonReducer } from "../../reducers/rifasReducer";
 
@@ -9,6 +11,14 @@ export default function Rifas() {
     carton: [],
   };
   const [carton, dispatch] = useReducer(cartonReducer, initialState);
+  const [actionModal, setActionModal] = useState(false);
+  const [modalAddRif, setModalAddRif] = useState(false);
+
+  const opemModal = () => setActionModal(true);
+  const closeModal = () => setActionModal(false);
+
+  const openModalAdd = () => setModalAddRif(true);
+  const closeModalAdd = () => setModalAddRif(false);
 
   useEffect(() => {
     const initFetch = async () => {
@@ -24,13 +34,25 @@ export default function Rifas() {
   let dollarUS = Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-    maximumFractionDigits:0
+    maximumFractionDigits: 0,
   });
 
   return (
-    <div>
+    <>
       <Row>
         <h2>Cartones</h2>
+
+        <Col xs="6" sm="4" md="3" className="mt-2">
+          <Card>
+            <Card.Body>
+              <h1>Create Raffle</h1>
+              <Button onClick={openModalAdd} variant="primary">
+                Add
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+
         {carton.carton &&
           carton.carton.map((ca, index) => (
             <Col key={index} xs="6" sm="4" md="3" className="mt-2">
@@ -47,10 +69,15 @@ export default function Rifas() {
                     {dollarUS.format(ca.price)}
                   </p>
                 </Card.Body>
+                <Button size="sm" variant="danger" onClick={opemModal}>
+                  x
+                </Button>
               </Card>
             </Col>
           ))}
       </Row>
-    </div>
+      <DeleteModal isOpen={actionModal} close={closeModal} />
+      <AddRifaModal isOpen={modalAddRif} close={closeModalAdd} />
+    </>
   );
 }

@@ -1,17 +1,26 @@
 import axios from "../helpers/axios";
 
 export const get = async () => {
-
   try {
     const res = await axios.get(`/carton/`);
 
     if (res.status === 200) {
       return res.data;
-    } else {      
+    } else {
       return [];
     }
-  } catch (error) {    
-    const { data } = error.response;
+  } catch (error) {
+    const {
+      data
+    } = error.response;
     return data;
   }
 };
+
+export const create = async (data) => {
+  try {
+    const res = await axios.post('/carton/', data)
+  } catch (e) {
+
+  }
+}

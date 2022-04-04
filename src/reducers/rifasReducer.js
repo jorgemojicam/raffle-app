@@ -1,7 +1,11 @@
-import { cartonConstants } from "../helpers/constants";
+import {
+  cartonConstants
+} from "../helpers/constants";
 
 export const init = (initialCount) => {
-  return { carton: initialCount };
+  return {
+    carton: initialCount
+  };
 };
 
 export const cartonReducer = (state, action) => {
@@ -12,6 +16,12 @@ export const cartonReducer = (state, action) => {
         carton: action.payload.cartons,
       };
       return state;
+
+    case cartonConstants.ADD_CARTON_REQUEST:
+      state = {
+        ...state
+      }
+      return state
     default:
       return state;
   }
