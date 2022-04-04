@@ -1,23 +1,42 @@
-import { useReducer, useState } from "react";
+import { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
-import { create } from "../actions/rifas.actions";
-import { cartonReducer } from "../reducers/rifasReducer";
+
+import useAuth from "../auth/useAuth";
+import useRifa from "../hooks/useRifa";
 
 export default function AddRifaModal({ isOpen, close }) {
-  const [carton, dispatch] = useReducer(cartonReducer, null);
+  const { authState } = useAuth();
+  const { createRifa } = useRifa();
+
+  const [validated, setValidated] = useState(false);
   const [cartons, setCartons] = useState(null);
 
   const create = (e) => {
     e.preventDefault();
-    let stalls = [];
-    for (let i = 0; i < 100; i++) {
-      const stall = {
-        numstall: i,
-        state: 1,
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    } else {
+      let stalls = [];
+      for (let i = 0; i < 100; i++) {
+        const stall = {
+          numstall: i,
+          state: 1,
+        };
+        stalls.push(stall);
+      }
+      const newcarton = {
+        ...cartons,
+        user: {
+          _id: authState.user.id,
+        },
+        cant: 100,
+        stalls,
       };
-      stalls.push(stall);
+      createRifa(newcarton);
+      close();
     }
-    console.log(stalls)
+    setValidated(true);
   };
 
   const handdleCarton = (e) => {
@@ -34,13 +53,14 @@ export default function AddRifaModal({ isOpen, close }) {
         <Modal.Title>crear rifa</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={create}>
+        <Form noValidate validated={validated} onSubmit={create}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Label>Titulo</Form.Label>
             <Form.Control
               type="text"
               placeholder="Ingrese titulo"
               name="title"
+              required
               onChange={handdleCarton}
             />
             <Form.Text className="text-muted">
@@ -56,6 +76,7 @@ export default function AddRifaModal({ isOpen, close }) {
               type="text"
               placeholder="ingrese descripcion"
               name="description"
+              required
               onChange={handdleCarton}
             />
           </Form.Group>
@@ -65,7 +86,9 @@ export default function AddRifaModal({ isOpen, close }) {
             <Form.Control
               type="number"
               placeholder="ingrese el valor del premio"
-              name="premio"
+              name="winprize"
+              min={50000}
+              required
               onChange={handdleCarton}
             />
           </Form.Group>
@@ -73,9 +96,10 @@ export default function AddRifaModal({ isOpen, close }) {
           <Form.Group className="mb-3" controlId="formBasicPassword">
             <Form.Label>Valor</Form.Label>
             <Form.Control
-              type="text"
+              type="number"
               placeholder="ingrese el valor de la rifa"
-              name="value"
+              name="price"
+              required
               onChange={handdleCarton}
             />
           </Form.Group>

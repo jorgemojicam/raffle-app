@@ -4,11 +4,14 @@ import useAuth from "../auth/useAuth";
 import Layout from "../components/layouts/Layout";
 import About from "../pages/About";
 import Auth from "../pages/Auth";
+import Carton from "../pages/Carton";
 import Contact from "../pages/Contact";
 import NotFound from "../pages/NotFound";
 import Rifas from "../pages/Rifa/Rifas";
 import PrivateRoute from "../routers/PrivateRoute";
 import PublicRoute from "../routers/PublicRoute";
+import RifaProvider from "../providers/RifaProvider";
+
 export default function AppRouter() {
   const { isAuth, isLogged } = useAuth();
 
@@ -42,7 +45,19 @@ export default function AppRouter() {
           path="/rifas"
           element={
             <PrivateRoute>
-              <Rifas />
+              <RifaProvider>
+                <Rifas />
+              </RifaProvider>
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/carton"
+          element={
+            <PrivateRoute>
+              <RifaProvider>
+                <Carton />
+              </RifaProvider>
             </PrivateRoute>
           }
         />

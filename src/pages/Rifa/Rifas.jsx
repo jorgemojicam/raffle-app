@@ -1,16 +1,13 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Col, Row, Button } from "react-bootstrap";
-import { get } from "../../actions/rifas.actions";
+import { useNavigate } from "react-router-dom";
 import AddRifaModal from "../../components/AddRifaModal";
 import DeleteModal from "../../components/DeleteModal";
-import { cartonConstants } from "../../helpers/constants";
-import { cartonReducer } from "../../reducers/rifasReducer";
+import useRifa from "../../hooks/useRifa";
 
 export default function Rifas() {
-  const initialState = {
-    carton: [],
-  };
-  const [carton, dispatch] = useReducer(cartonReducer, initialState);
+  let navigate = useNavigate();
+  const { getAll, carton, setCarton } = useRifa();
   const [actionModal, setActionModal] = useState(false);
   const [modalAddRif, setModalAddRif] = useState(false);
 
@@ -20,15 +17,13 @@ export default function Rifas() {
   const openModalAdd = () => setModalAddRif(true);
   const closeModalAdd = () => setModalAddRif(false);
 
+  const verCarton = (ca) => {    
+    setCarton(ca)
+    navigate(`/carton`);
+  };
+
   useEffect(() => {
-    const initFetch = async () => {
-      const res = await get();
-      dispatch({
-        type: cartonConstants.GET_CARTON_REQUEST,
-        payload: { cartons: res.cartons },
-      });
-    };
-    initFetch();
+    getAll();
   }, []);
 
   let dollarUS = Intl.NumberFormat("en-US", {
@@ -62,16 +57,25 @@ export default function Rifas() {
                   <p>{ca.description}</p>
                   <p>
                     <b>Premio: </b>
-                    {dollarUS.format(ca.value)}
+                    {dollarUS.format(ca.winprize)}
                   </p>
                   <p>
                     <b>Valor: </b>
                     {dollarUS.format(ca.price)}
                   </p>
+
+                  <Button size="sm" variant="danger" onClick={opemModal}>
+                    x
+                  </Button>
+
+                  <Button
+                    size="sm"
+                    variant="success"
+                    onClick={() =>{ verCarton(ca)}}
+                  >
+                    ver
+                  </Button>
                 </Card.Body>
-                <Button size="sm" variant="danger" onClick={opemModal}>
-                  x
-                </Button>
               </Card>
             </Col>
           ))}

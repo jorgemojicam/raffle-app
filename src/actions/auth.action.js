@@ -53,11 +53,13 @@ export const login = async (user) => {
 
   if (res.status === 200) {
     const {
+      id,
       email,
       username,
       accessToken
     } = res.data;
     const user = {
+      id,
       email,
       username
     };
