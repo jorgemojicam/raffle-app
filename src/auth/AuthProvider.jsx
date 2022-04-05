@@ -11,7 +11,6 @@ export default function AuthProvider({ children }) {
     dispatch(aut);
   };
   const isAuth = () => authState?.isAuthenticate;
-
   const hasRole = (role) => role && authState?.role === role;
 
   const logi = (userdata) => {

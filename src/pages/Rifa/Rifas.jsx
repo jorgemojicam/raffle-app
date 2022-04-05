@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Col, Row, Button } from "react-bootstrap";
+import { Card, Col, Row, Button, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import AddRifaModal from "../../components/AddRifaModal";
 import DeleteModal from "../../components/DeleteModal";
@@ -7,7 +7,7 @@ import useRifa from "../../hooks/useRifa";
 
 export default function Rifas() {
   let navigate = useNavigate();
-  const { getAll, carton, setCarton } = useRifa();
+  const { getAll, cartones, setCarton } = useRifa();
   const [actionModal, setActionModal] = useState(false);
   const [modalAddRif, setModalAddRif] = useState(false);
 
@@ -17,8 +17,8 @@ export default function Rifas() {
   const openModalAdd = () => setModalAddRif(true);
   const closeModalAdd = () => setModalAddRif(false);
 
-  const verCarton = (ca) => {    
-    setCarton(ca)
+  const verCarton = (ca) => {
+    setCarton(ca);
     navigate(`/carton`);
   };
 
@@ -48,33 +48,60 @@ export default function Rifas() {
           </Card>
         </Col>
 
-        {carton.carton &&
-          carton.carton.map((ca, index) => (
+        {cartones.cartones &&
+          cartones.cartones.map((ca, index) => (
             <Col key={index} xs="6" sm="4" md="3" className="mt-2">
               <Card>
                 <Card.Body>
                   <Card.Title>{ca.title}</Card.Title>
-                  <p>{ca.description}</p>
+                  {ca.description} <br />
                   <p>
-                    <b>Premio: </b>
-                    {dollarUS.format(ca.winprize)}
+                    <Badge bg="secondary" className="me-2">
+                      {ca.stalls.filter((a) => a.state === 1).length}
+                    </Badge>
+                    <Badge bg="warning" className="me-2">
+                      {ca.stalls.filter((a) => a.state === 2).length}
+                    </Badge>
+                    <Badge bg="success">
+                      {ca.stalls.filter((a) => a.state === 3).length}
+                    </Badge>
                   </p>
                   <p>
+                    <b>Premio: </b>
+                    {dollarUS.format(ca.winprize)} <br />
                     <b>Valor: </b>
                     {dollarUS.format(ca.price)}
                   </p>
+                  <div className="d-flex justify-content-center">
+                    <Button
+                      size="sm"
+                      variant="danger"
+                      className="me-2"
+                      onClick={opemModal}
+                    >
+                      <i className="bi-trash3"></i>
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="primary"
+                      className="me-2"
+                      onClick={() => {
+                        verCarton(ca);
+                      }}
+                    >
+                      <i className="bi-eye"></i>
+                    </Button>
 
-                  <Button size="sm" variant="danger" onClick={opemModal}>
-                    x
-                  </Button>
-
-                  <Button
-                    size="sm"
-                    variant="success"
-                    onClick={() =>{ verCarton(ca)}}
-                  >
-                    ver
-                  </Button>
+                    <Button
+                      size="sm"
+                      variant="success"
+                      onClick={() => {
+                        verCarton(ca);
+                      }}
+                    >
+                      <i className="bi-check-square"></i>
+                    </Button>
+                  </div>
                 </Card.Body>
               </Card>
             </Col>

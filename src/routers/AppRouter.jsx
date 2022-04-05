@@ -5,7 +5,6 @@ import Layout from "../components/layouts/Layout";
 import About from "../pages/About";
 import Auth from "../pages/Auth";
 import Carton from "../pages/Carton";
-import Contact from "../pages/Contact";
 import NotFound from "../pages/NotFound";
 import Rifas from "../pages/Rifa/Rifas";
 import PrivateRoute from "../routers/PrivateRoute";
@@ -32,7 +31,6 @@ export default function AppRouter() {
             </PublicRoute>
           }
         />
-        <Route path="/contact" element={<Contact />} />
         <Route
           path="/about"
           element={

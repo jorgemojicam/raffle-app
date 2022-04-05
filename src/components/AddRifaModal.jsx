@@ -11,6 +11,8 @@ export default function AddRifaModal({ isOpen, close }) {
   const [validated, setValidated] = useState(false);
   const [cartons, setCartons] = useState(null);
 
+  const hoy = new Date().toISOString()
+
   const create = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
@@ -20,11 +22,12 @@ export default function AddRifaModal({ isOpen, close }) {
       let stalls = [];
       for (let i = 0; i < 100; i++) {
         const stall = {
-          numstall: i,
+          numstalls: i,
           state: 1,
         };
         stalls.push(stall);
       }
+
       const newcarton = {
         ...cartons,
         user: {
@@ -48,7 +51,7 @@ export default function AddRifaModal({ isOpen, close }) {
   };
 
   return (
-    <Modal show={isOpen} onHide={close}>
+    <Modal size="lg" show={isOpen} onHide={close}>
       <Modal.Header closeButton>
         <Modal.Title>crear rifa</Modal.Title>
       </Modal.Header>
@@ -61,6 +64,8 @@ export default function AddRifaModal({ isOpen, close }) {
               placeholder="Ingrese titulo"
               name="title"
               required
+              minLength={6}
+              maxLength={40}
               onChange={handdleCarton}
             />
             <Form.Text className="text-muted">
@@ -102,6 +107,21 @@ export default function AddRifaModal({ isOpen, close }) {
               required
               onChange={handdleCarton}
             />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Juega el:</Form.Label>
+            <Form.Control
+              type="date"
+              placeholder="Fecha de sorteo"
+              name="playdate"
+              required
+              min={hoy}
+              onChange={handdleCarton}
+            />
+            <Form.Text className="text-muted">
+              Ingrese la fecha de sorteo
+            </Form.Text>
           </Form.Group>
 
           <Button variant="success" className="me-2" type="submit">

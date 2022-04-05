@@ -4,8 +4,7 @@ import { cartonConstants } from "../helpers/constants";
 export const get = async () => {
   let dispatch;
   try {
-    const res = await axios.get(`/carton/`);
-
+    const res = await axios.get(`/carton/`);    
     if (res.status === 200) {
       dispatch = {
         type: cartonConstants.GET_CARTON_SUCCESS,

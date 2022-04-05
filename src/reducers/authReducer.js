@@ -1,13 +1,10 @@
-import {
-  authConstants
-} from "../helpers/constants";
-
+import { authConstants } from "../helpers/constants";
 
 const authReducer = (state, action) => {
   switch (action.type) {
     case authConstants.SIGNUP_REQUEST:
       state = {
-        ...state,     
+        ...state,
         isAuthenticate: true,
       };
       break;
@@ -28,11 +25,15 @@ const authReducer = (state, action) => {
     case authConstants.LOGOUT_REQUEST:
       state = {
         ...state,
+        user: null,
         isAuthenticate: false,
       };
       break;
     default:
-      console.log("No paso nada");
+      state = {
+        ...state,
+        isAuthenticate: false,
+      };
       break;
   }
   return state;

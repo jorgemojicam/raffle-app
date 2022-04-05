@@ -1,15 +1,16 @@
 import { createContext, useReducer } from "react";
 import { cartonReducer } from "../reducers/rifasReducer";
 import { get, create } from "../actions/rifas.actions";
+import { cartonConstants } from "../helpers/constants";
 
 export const RifaContext = createContext();
 
 const init = {
-  carton: [],
+  cartones: [],
 };
 
 export default function RifaProvider({ children }) {
-  const [carton, dispatch] = useReducer(cartonReducer, init);
+  const [cartones, dispatch] = useReducer(cartonReducer, init);
 
   const getAll = () => {
     const initFetch = async () => {
@@ -28,14 +29,14 @@ export default function RifaProvider({ children }) {
   };
 
   const setCarton = (carton) => {
-    dispatch({ carton });
+    dispatch({ type: cartonConstants.SET_CARTON_SUCCESS, payload: carton });
   };
-  
+
   const contextvalues = {
     getAll,
     createRifa,
     setCarton,
-    carton,
+    cartones,
   };
 
   return (
